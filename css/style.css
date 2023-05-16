@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Open+Sans&display=swap');
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-size:large;
+}
+.results {
+    padding: 10px;
+    border:4px dashed green;
+}
+.overuse .results {
+    border:4px dashed red;
+}
+.form {
+    margin-top:20px;
+}
+.form-group {
+    margin-top:20px;
+}
+button {
+    margin-top:20px;
+}
