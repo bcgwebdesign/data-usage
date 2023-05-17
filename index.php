@@ -34,6 +34,8 @@
             }
         }
 
+        $totalRemaining = $dataRemaining + $dataReserve;
+
         // set cookies based on form values
         setcookie( 'remaining', $dataRemaining, strtotime( '+30 days' ) );
         setcookie( 'allowance', $dataAllowance, strtotime( '+30 days' ) );
@@ -41,6 +43,7 @@
         setcookie( 'renew-date', $renewDate, strtotime( '+30 days' ) );
 
         $currentDate = new DateTime();
+        $currentDate->modify('+1 hour');
         $currentDay = $currentDate->format('d');
 
         $tweaked_renewal = $renewDate - 1;
@@ -71,6 +74,7 @@
         
     $passed = $currentDate->diff($startDate);
     $sinceRenewal_string = $passed->format('%d')." Days ".$passed->format('%h')." Hours ".$passed->format('%i')." Minutes";
+    
     $passed_total_minutes = ($passed->format('%d') * 24 * 60)
                             + ($passed->format('%h') * 60)
                             + ($passed->format('%i'));
@@ -84,7 +88,7 @@
     $untilRenewal_minutes = $remaining_total_minutes;
 
    
-    $data_used_mb = ($dataAllowance * 1000) - ($dataRemaining * 1000); 
+    $data_used_mb = ($dataAllowance * 1000 ) - ($dataRemaining * 1000); 
 
     $current_usage_min = $data_used_mb /  $passed_total_minutes;       
     $current_usage_hour = $current_usage_min * 60;
@@ -100,11 +104,19 @@
 
     $target_daily_usage_mb = $target_available_mb / $days_this_period;
    
-    $data_left = ($dataRemaining * 1000) + ($dataReserve * 1000); 
+    $data_left = ($totalRemaining * 1000); 
 
     $data_minutes_left = $data_left / $current_usage_min; 
     $data_hours_left = $data_minutes_left / 60;
     $data_days_left =  $data_hours_left / 24;
+    echo $data_days_left;
+
+    
+
+    // and round/mod them
+    $i_data_days_left = (int)$data_days_left;
+    $i_data_hours_left = (int)($data_hours_left - (24 * $i_data_days_left));
+    $i_data_minutes_left = (int)($data_minutes_left - (60 * $i_data_hours_left + 60*24*$i_data_days_left ));
 
     if($data_minutes_left < $untilRenewal_minutes) {
         $overuse = "overuse";
@@ -156,15 +168,21 @@
             <?php if($submitted) { ?>
                 <div class='row gap-3 g-3 <?php echo $overuse; ?>'>
                     <div class='col-sm results'>
-                        Running out on <?php echo $running_out_date_string;?><br />
-                        Renews on <?php echo $endDate_string;?>
+                        <strong>Data</strong><br />
+                        Runs out on <strong><?php echo $running_out_date_string;?></strong><br />
+                        Renews on <strong><?php echo $endDate_string;?></strong>
                     </div>
                     <div class='col-sm results'>
-                        Current Daily Usage (MB) <?php echo number_format($current_usage_day, 2, '.', ',');?><br />
-                        Target Daily Usage(MB) <?php echo number_format($target_daily_usage_mb, 2, '.', ',');?>
+                        <strong>Usage</strong><br />
+                        Current daily <strong><?php echo number_format($current_usage_day, 2, '.', ',');?></strong>MB<br />
+                        Target daily <strong><?php echo number_format($target_daily_usage_mb, 2, '.', ',');?></strong>MB
                     </div>
                     <div class='col-sm results'>
-                        Days Remaining at Current Usage <?php echo number_format($data_days_left, 2, '.', ',');?>
+                        <strong>Info</strong><br />
+                        Time Remaining at current usage: <br /><strong><?php echo $i_data_days_left;?></strong> days, 
+                        <strong><?php echo $i_data_hours_left;?></strong>, hours and 
+                        <strong><?php echo $i_data_minutes_left;?></strong> minutes<br />
+                        Actual data Remaining <strong><?php echo $totalRemaining; ?></strong>GB
                     </div>
                 </div>
             <?php } ?>
