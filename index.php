@@ -109,7 +109,10 @@
     $data_minutes_left = $data_left / $current_usage_min; 
     $data_hours_left = $data_minutes_left / 60;
     $data_days_left =  $data_hours_left / 24;
-    echo $data_days_left;
+
+    $minutes_without_data = $untilRenewal_minutes - $data_minutes_left;
+    $hours_without_data = $minutes_without_data / 60;
+    $days_without_data =  $hours_without_data / 24;
 
     
 
@@ -117,6 +120,11 @@
     $i_data_days_left = (int)$data_days_left;
     $i_data_hours_left = (int)($data_hours_left - (24 * $i_data_days_left));
     $i_data_minutes_left = (int)($data_minutes_left - (60 * $i_data_hours_left + 60*24*$i_data_days_left ));
+
+    
+    $i_data_days_short = (int)$days_without_data;
+    $i_data_hours_short = (int)($hours_without_data - (24 * $i_data_days_short));
+    $i_data_minutes_short = (int)($minutes_without_data - (60 * $i_data_hours_short + 60*24*$i_data_days_short ));
 
     if($data_minutes_left < $untilRenewal_minutes) {
         $overuse = "overuse";
@@ -168,9 +176,15 @@
             <?php if($submitted) { ?>
                 <div class='row gap-3 g-3 <?php echo $overuse; ?>'>
                     <div class='col-sm results'>
+                        <strong>Time without Data</strong><br />                        
+                        <strong><?php echo $i_data_days_short;?></strong> days, 
+                        <strong><?php echo $i_data_hours_short;?></strong>, hours and 
+                        <strong><?php echo $i_data_minutes_short;?></strong> minutes<br />
+                    </div>
+                    <div class='col-sm results'>
                         <strong>Data</strong><br />
                         Runs out on <strong><?php echo $running_out_date_string;?></strong><br />
-                        Renews on <strong><?php echo $endDate_string;?></strong>
+                        Renews on <strong><?php echo $endDate_string;?></strong><br />
                     </div>
                     <div class='col-sm results'>
                         <strong>Usage</strong><br />
