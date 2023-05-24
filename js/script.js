@@ -122,7 +122,7 @@ function do_calculations(remaining, allowance, reserve, renewDate) {
       resultset.classList.add("underuse");
     }
 
-    //
+    // just to add the 00:00
     var endTime = formatTime(endDate);
 
     // how long without data will you have
@@ -154,6 +154,7 @@ Date.prototype.addHours = function(h) {
     return this;
   }
 
+// js needs stuff like this built in!
 function formatTime(theDate) {
     sHours = theDate.getHours();
     sMinutes = theDate.getMinutes();
