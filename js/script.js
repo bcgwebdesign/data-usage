@@ -22,8 +22,15 @@ window.onload = function() {
     frm_reserve.value = reserve;
     frm_renewDate.value = renewDate; 
 
-    
+    // do the calcs one and then every minute
     do_calculations(remaining, allowance, reserve, renewDate);
+
+    setInterval(looper, 6000);
+
+    function looper() {
+      console.log("looper");
+      do_calculations(remaining, allowance, reserve, renewDate)
+    }
 
   };
 
@@ -41,6 +48,7 @@ document.addEventListener('submit', function (e) {
 
     
     do_calculations(frm_remaining, frm_allowance, frm_reserve, frm_renewDate);
+    
     e.preventDefault();
 });
 
