@@ -111,12 +111,10 @@ function do_calculations(remaining, allowance, reserve, renewDate) {
     var runoutTime = formatTime(runoutDate);
 
     if (runoutDate < endDate) {
-      console.log('doh! gonna run out');
       var resultset = document.getElementById("resultset");
       resultset.classList.remove("underuse");
       resultset.classList.add("overuse");
     } else {
-      console.log('phew, yer gonna make it :)');
       var resultset = document.getElementById("resultset");
       resultset.classList.remove("overuse");
       resultset.classList.add("underuse");
