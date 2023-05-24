@@ -139,7 +139,7 @@ function do_calculations(remaining, allowance, reserve, renewDate) {
     document.getElementById('data_mins_short').textContent = noDataMins;
     document.getElementById('data_renews_on').textContent = endDate.toLocaleDateString() + " " + endTime;
     document.getElementById('data_runsout_on').textContent = runoutDate.toLocaleDateString() + " " + runoutTime;
-    document.getElementById('actual_data_remaining').textContent = totalRemaining;
+    document.getElementById('actual_data_remaining').textContent = totalRemaining.toFixed(2);
     document.getElementById('used_per_day').textContent = used_per_day.toFixed(2);
     document.getElementById('target_per_day').textContent = target_per_day.toFixed(2);
     document.getElementById('days_remaining').textContent = remainingDays;
