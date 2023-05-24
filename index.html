@@ -15,7 +15,7 @@
             <p>Numbers are stored in cookies to save you inputting every time</p>
             
             
-                <div class='row gap-3 g-3 <?php echo $overuse; ?>'>
+                <div id='resultset' class='row gap-3 g-3 overuse'>
                     <div class='col-sm results'>
                         <strong>Time without Data</strong><br />                        
                         <strong><span id='data_days_short'></span></strong> days, 
@@ -37,7 +37,7 @@
                         Time Remaining at current usage: <br /><strong><span id='days_remaining'></span></strong> days, 
                         <strong><span id='hours_remaining'></span></strong>, hours and 
                         <strong><span id='mins_remaining'></span></strong> minutes<br />
-                        Actual data Remaining <strong><span id='actual_data_remaining'></span><?php echo $totalRemaining; ?></strong>GB
+                        Actual data Remaining <strong><span id='actual_data_remaining'></span></strong>GB
                     </div>
                 </div>
             
@@ -48,12 +48,12 @@
                         <div class='row'>
                             <div class='col-sm'>
                                 <label for='remaining'>Data Remaining (GB)</label>
-                                <input autofocus class='form-control' type='text' name='remaining' id='remaining' value='<?php echo $dataRemaining; ?>' placeholder='Data Remaining (GB)' required/>
+                                <input autofocus class='form-control' type='text' name='remaining' id='remaining' value='' placeholder='Data Remaining (GB)' required/>
                             </div>
                             
                             <div class='col-sm'>
                                 <label for='renew-date'>Data Renewal (Just the day part of the date)</label>
-                                <input min="1" max="31" step="1" class='form-control' type='number' name='renew-date' id='renew-date' value='<?php echo $renewDate; ?>' placeholder='Renewal date' required/>
+                                <input min="1" max="31" step="1" class='form-control' type='number' name='renew-date' id='renew-date' value='' placeholder='Renewal date' required/>
                             </div> 
                         </div>
                     </div>                    
@@ -62,12 +62,12 @@
                         <div class='row'>
                             <div class='col-sm'>
                                 <label for='allowance'>Data Allowance (GB)</label>
-                                <input min="1" step="1" class='form-control' type='number' name='allowance' id='allowance' value='<?php echo $dataAllowance; ?>' placeholder='Data Allowance (GB)' required/>
+                                <input min="1" step="1" class='form-control' type='number' name='allowance' id='allowance' value='' placeholder='Data Allowance (GB)' required/>
                             </div>
 
                             <div class='col-sm'>
                                 <label for='reserve'>Data Reserve (GB)</label>
-                                <input min="0" step="1" class='form-control' type='number' name='reserve' id='reserve' value='<?php echo $dataReserve; ?>' placeholder='Data Reserve (GB)' required/>        
+                                <input min="0" step="1" class='form-control' type='number' name='reserve' id='reserve' value='' placeholder='Data Reserve (GB)' required/>        
                             </div>
                         </div>                        
                     </div>

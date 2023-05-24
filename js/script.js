@@ -110,6 +110,18 @@ function do_calculations(remaining, allowance, reserve, renewDate) {
     var runoutDate = new Date(runoutDateMS);
     var runoutTime = formatTime(runoutDate);
 
+    if (runoutDate < endDate) {
+      console.log('doh! gonna run out');
+      var resultset = document.getElementById("resultset");
+      resultset.classList.remove("underuse");
+      resultset.classList.add("overuse");
+    } else {
+      console.log('phew, yer gonna make it :)');
+      var resultset = document.getElementById("resultset");
+      resultset.classList.remove("overuse");
+      resultset.classList.add("underuse");
+    }
+
     //
     var endTime = formatTime(endDate);
 
@@ -155,7 +167,7 @@ function setCookie(cname, cvalue, exdays) {
     const d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     let expires = "expires="+ d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/data-usage/";
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
   }
 
   function getCookie(cname) {
