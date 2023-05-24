@@ -3,7 +3,10 @@ var allowance = getCookie('allowance');
 var reserve = getCookie('reserve');
 var renewDate = getCookie('renewDate');
 
-
+// for keeping the page refreshing.
+var myLoop;
+var loadLoopDelay = 6000;
+var submitLoopDelay = 1000;
 
 // page load thingummy
 window.onload = function() {
@@ -22,19 +25,14 @@ window.onload = function() {
     frm_reserve.value = reserve;
     frm_renewDate.value = renewDate; 
 
-    // do the calcs one and then every minute
+    // do the calcs once and then loop it
     do_calculations(remaining, allowance, reserve, renewDate);
-
-    setInterval(looper, 6000);
-
-    function looper() {
-      console.log("looper");
-      do_calculations(remaining, allowance, reserve, renewDate)
-    }
+    myLoop = setInterval( function() { do_calculations(remaining, allowance, reserve, renewDate); }, loadLoopDelay );    
 
   };
 
 document.addEventListener('submit', function (e) {
+  
 
     var frm_remaining = document.getElementById('remaining').value;
     var frm_allowance = document.getElementById('allowance').value;
@@ -46,13 +44,18 @@ document.addEventListener('submit', function (e) {
     setCookie('reserve',frm_reserve, 30);
     setCookie('renewDate',frm_renewDate, 30);
 
-    
+    // stop existing loop
+    clearInterval(myLoop);  
+
+    // do calc one and then loop it
     do_calculations(frm_remaining, frm_allowance, frm_reserve, frm_renewDate);
+    myLoop = setInterval( function() { do_calculations(frm_remaining, frm_allowance, frm_reserve, frm_renewDate); }, submitLoopDelay );
     
     e.preventDefault();
 });
 
 function do_calculations(remaining, allowance, reserve, renewDate) {
+    console.log("Do Calcs");
     var log = document.getElementById('log');
 
     renewDate = parseInt(renewDate);
@@ -69,13 +72,13 @@ function do_calculations(remaining, allowance, reserve, renewDate) {
 
     if(day >= renewDate) {
         // started this month and renews next month 
-        console.log("day >= renewDate");
+        //console.log("day >= renewDate");
         fixedMonth = month + 1;
         fixedEndMonth = fixedMonth + 1;
         startDate = new Date(year + "-" + fixedMonth + "-" + renewDate);
         endDate = new Date(year + "-" + fixedEndMonth + "-" + renewDate);
-        console.log("startDate = " + startDate);
-        console.log("endDate = " + endDate);
+        //console.log("startDate = " + startDate);
+        //console.log("endDate = " + endDate);
     } else {        
         // started last month and renews this month
         console.log("day < renewDate");        
@@ -83,8 +86,8 @@ function do_calculations(remaining, allowance, reserve, renewDate) {
         fixedEndMonth = fixedMonth + 1;
         startDate = new Date(year + "-" + fixedMonth + "-" + renewDate);
         endDate = new Date(year + "-" + fixedEndMonth + "-" + renewDate);
-        console.log("startDate = " + startDate);
-        console.log("endDate = " + endDate);
+        //console.log("startDate = " + startDate);
+        //console.log("endDate = " + endDate);
     }
 
     
