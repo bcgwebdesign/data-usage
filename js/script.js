@@ -132,8 +132,7 @@ function do_calculations(remaining, allowance, reserve, renewDate) {
     var noDataHours = Math.floor((noDataTotalMins - (noDataDays * 24 * 60)) / 60 );
     var noDataMins = Math.floor(noDataTotalMins - (noDataHours * 60) - (noDataDays * 60 * 24) );
 
-
-
+    // send the values to the page  
     document.getElementById('data_days_short').textContent = noDataDays;
     document.getElementById('data_hours_short').textContent = noDataHours;
     document.getElementById('data_mins_short').textContent = noDataMins;
