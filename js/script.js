@@ -55,7 +55,6 @@ document.addEventListener('submit', function (e) {
 });
 
 function do_calculations(remaining, allowance, reserve, renewDate) {
-    console.log("Do Calcs");
     var log = document.getElementById('log');
 
     renewDate = parseInt(renewDate);
