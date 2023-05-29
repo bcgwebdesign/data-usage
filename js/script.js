@@ -2,6 +2,7 @@ var remaining = getCookie('remaining');
 var allowance = getCookie('allowance');
 var reserve = getCookie('reserve');
 var renewDate = getCookie('renewDate');
+var reserveChecked = getCookie('reserveChecked');
 
 // for keeping the page refreshing.
 var myLoop;
@@ -14,20 +15,23 @@ window.onload = function() {
     allowance = getCookie('allowance');
     reserve = getCookie('reserve');
     renewDate = getCookie('renewDate');
+    reserveChecked = getCookie('reserveChecked');
 
     var frm_remaining = document.getElementById('remaining');
     var frm_allowance = document.getElementById('allowance');
     var frm_reserve = document.getElementById('reserve');
     var frm_renewDate = document.getElementById('renew-date');
+    var frm_usingReserve = document.getElementById('using-reserve');
 
     frm_remaining.value = remaining;
     frm_allowance.value = allowance;
     frm_reserve.value = reserve;
     frm_renewDate.value = renewDate; 
+    frm_usingReserve.checked = reserveChecked;
 
     // do the calcs once and then loop it
-    do_calculations(remaining, allowance, reserve, renewDate);
-    myLoop = setInterval( function() { do_calculations(remaining, allowance, reserve, renewDate); }, loadLoopDelay );    
+    do_calculations(remaining, allowance, reserve, renewDate, reserveChecked);
+    myLoop = setInterval( function() { do_calculations(remaining, allowance, reserve, renewDate, reserveChecked); }, loadLoopDelay );    
 
   };
 
@@ -38,23 +42,25 @@ document.addEventListener('submit', function (e) {
     var frm_allowance = document.getElementById('allowance').value;
     var frm_reserve = document.getElementById('reserve').value;
     var frm_renewDate = document.getElementById('renew-date').value;
+    var frm_usingReserve = document.getElementById('using-reserve').checked;
     
     setCookie('remaining',frm_remaining, 30);
     setCookie('allowance',frm_allowance, 30);
     setCookie('reserve',frm_reserve, 30);
     setCookie('renewDate',frm_renewDate, 30);
+    setCookie('reserveChecked',frm_usingReserve, 30);
 
     // stop existing loop
     clearInterval(myLoop);  
 
     // do calc one and then loop it
-    do_calculations(frm_remaining, frm_allowance, frm_reserve, frm_renewDate);
-    myLoop = setInterval( function() { do_calculations(frm_remaining, frm_allowance, frm_reserve, frm_renewDate); }, submitLoopDelay );
+    do_calculations(frm_remaining, frm_allowance, frm_reserve, frm_renewDate, frm_usingReserve);
+    myLoop = setInterval( function() { do_calculations(frm_remaining, frm_allowance, frm_reserve, frm_renewDate, frm_usingReserve); }, submitLoopDelay );
     
     e.preventDefault();
 });
 
-function do_calculations(remaining, allowance, reserve, renewDate) {
+function do_calculations(remaining, allowance, reserve, renewDate, reserveChecked) {
     var log = document.getElementById('log');
 
     renewDate = parseInt(renewDate);
@@ -91,6 +97,9 @@ function do_calculations(remaining, allowance, reserve, renewDate) {
 
     
     var totalRemaining = remaining + reserve;
+    if (reserveChecked) {
+      totalRemaining = remaining;
+    }
     var used = allowance - remaining;
     var totalData = allowance + reserve;
 
