@@ -16,6 +16,9 @@ body {
 .form-group {
     margin-top:20px;
 }
+.form-group .row label {
+    margin-top:20px;
+}
 button {
     margin-top:20px;
 }
