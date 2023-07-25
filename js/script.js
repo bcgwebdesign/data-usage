@@ -153,7 +153,7 @@ function do_calculations(remaining, allowance, reserve, renewDate, reserveChecke
     var noDataMins = Math.floor(noDataTotalMins - (noDataHours * 60) - (noDataDays * 60 * 24) );
 
     
-    document.getElementById('remaining_per_day').textContent = remaining_daily_target;
+    document.getElementById('remaining_per_day').textContent = remaining_daily_target.toFixed(2);
     // send the values to the page  
     document.getElementById('data_days_short').textContent = noDataDays;
     document.getElementById('data_hours_short').textContent = noDataHours;
