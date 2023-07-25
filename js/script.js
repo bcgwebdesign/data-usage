@@ -108,7 +108,16 @@ function do_calculations(remaining, allowance, reserve, renewDate, reserveChecke
     var goneMins = Math.round(goneMs/60000);
     var used_per_minute = (used * 1000) / goneMins;
     var used_per_hour = used_per_minute * 60;
-    var used_per_day = used_per_hour * 24;    
+    var used_per_day = used_per_hour * 24;  
+    
+    
+    // how far until end of month
+    var endMs = (endDate - currentDate);
+    var endTotalMins = Math.round(endMs/60000);
+    
+    var endDays = Math.floor(endTotalMins / 60 / 24);
+    var endHours = Math.floor((endTotalMins - (endDays * 24 * 60)) / 60 );
+    var endMins = Math.floor(endTotalMins - (endHours * 60) - (endDays * 60 * 24) );  
 
     // and what should we aim for in the month on average
     var periodMs = (endDate - startDate);
@@ -130,7 +139,8 @@ function do_calculations(remaining, allowance, reserve, renewDate, reserveChecke
     var runoutTime = formatTime(runoutDate);
 
     // and how much usage that should be
-    var remaining_daily_target = ((totalRemaining * 1000) / (Math.floor(remainingTotalMins / 60 / 24)));
+    var remaining_daily_target = (totalRemaining * 1000 ) / ((endTotalMins / 60 / 24));
+
 
     if (runoutDate < endDate) {
       var resultset = document.getElementById("resultset");
@@ -166,6 +176,11 @@ function do_calculations(remaining, allowance, reserve, renewDate, reserveChecke
     document.getElementById('days_remaining').textContent = remainingDays;
     document.getElementById('hours_remaining').textContent = remainingHours;
     document.getElementById('mins_remaining').textContent = remainingMins;
+
+    
+    document.getElementById('end_days_remaining').textContent = endDays;
+    document.getElementById('end_hours_remaining').textContent = endHours;
+    document.getElementById('end_mins_remaining').textContent = endMins;
     
     //log.textContent = `Form Submitted! Timestamp:  ` + noDataDays;
 
