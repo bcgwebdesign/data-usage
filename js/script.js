@@ -108,7 +108,7 @@ function do_calculations(remaining, allowance, reserve, renewDate, reserveChecke
     var goneMins = Math.round(goneMs/60000);
     var used_per_minute = (used * 1000) / goneMins;
     var used_per_hour = used_per_minute * 60;
-    var used_per_day = used_per_hour * 24;
+    var used_per_day = used_per_hour * 24;    
 
     // and what should we aim for in the month on average
     var periodMs = (endDate - startDate);
@@ -128,6 +128,9 @@ function do_calculations(remaining, allowance, reserve, renewDate, reserveChecke
     var runoutDateMS = currentDate.getTime() + runoutDateDiff;
     var runoutDate = new Date(runoutDateMS);
     var runoutTime = formatTime(runoutDate);
+
+    // and how much usage that should be
+    var remaining_daily_target = ((totalRemaining * 1000) / (Math.floor(remainingTotalMins / 60 / 24)));
 
     if (runoutDate < endDate) {
       var resultset = document.getElementById("resultset");
@@ -149,6 +152,8 @@ function do_calculations(remaining, allowance, reserve, renewDate, reserveChecke
     var noDataHours = Math.floor((noDataTotalMins - (noDataDays * 24 * 60)) / 60 );
     var noDataMins = Math.floor(noDataTotalMins - (noDataHours * 60) - (noDataDays * 60 * 24) );
 
+    
+    document.getElementById('remaining_per_day').textContent = remaining_daily_target;
     // send the values to the page  
     document.getElementById('data_days_short').textContent = noDataDays;
     document.getElementById('data_hours_short').textContent = noDataHours;
