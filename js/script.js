@@ -2,7 +2,9 @@ var remaining = getCookie('remaining');
 var allowance = getCookie('allowance');
 var reserve = getCookie('reserve');
 var renewDate = getCookie('renewDate');
-var reserveChecked = getCookie('reserveChecked');
+var reserveChecked = (getCookie('reserveChecked')  === 'true');
+console.log(typeof(reserveChecked));
+console.log("reserve cookie=" + reserveChecked);
 
 // for keeping the page refreshing.
 var myLoop;
@@ -15,7 +17,7 @@ window.onload = function() {
     allowance = getCookie('allowance');
     reserve = getCookie('reserve');
     renewDate = getCookie('renewDate');
-    reserveChecked = getCookie('reserveChecked');
+    reserveChecked = (getCookie('reserveChecked')  === 'true');
 
     var frm_remaining = document.getElementById('remaining');
     var frm_allowance = document.getElementById('allowance');
@@ -27,8 +29,11 @@ window.onload = function() {
     frm_allowance.value = allowance;
     frm_reserve.value = reserve;
     frm_renewDate.value = renewDate; 
+      
     frm_usingReserve.checked = reserveChecked;
+    console.log(typeof(reserveChecked));
 
+    console.log("reserve=" + reserveChecked);
     // do the calcs once and then loop it
     do_calculations(remaining, allowance, reserve, renewDate, reserveChecked);
     myLoop = setInterval( function() { do_calculations(remaining, allowance, reserve, renewDate, reserveChecked); }, loadLoopDelay );    
@@ -42,13 +47,20 @@ document.addEventListener('submit', function (e) {
     var frm_allowance = document.getElementById('allowance').value;
     var frm_reserve = document.getElementById('reserve').value;
     var frm_renewDate = document.getElementById('renew-date').value;
-    var frm_usingReserve = document.getElementById('using-reserve').checked;
+    var frm_usingReserve = (document.getElementById('using-reserve').checked);
+    
+    console.log(typeof(frm_usingReserve), frm_usingReserve);
     
     setCookie('remaining',frm_remaining, 30);
     setCookie('allowance',frm_allowance, 30);
     setCookie('reserve',frm_reserve, 30);
     setCookie('renewDate',frm_renewDate, 30);
-    setCookie('reserveChecked',frm_usingReserve, 30);
+    if(frm_usingReserve) {
+      usingReserveString = 'true';
+    } else {
+      usingReserveString = 'false';
+    }
+    setCookie('reserveChecked',usingReserveString, 30);
 
     // stop existing loop
     clearInterval(myLoop);  
